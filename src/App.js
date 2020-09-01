@@ -5,7 +5,6 @@ import TodoRow from './TodoRow';
 import VisibilityControl from './VisibilityControl';
 import 'bootstrap/dist/css/bootstrap.css'
 
-
 class App extends Component {
 
   constructor(props) {
