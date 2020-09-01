@@ -11,7 +11,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: 'King',
       todoItems:
         [{ action: 'Buy Flowers', done: true },
         { action: 'Get Shoes', done: false },
@@ -37,21 +36,28 @@ class App extends Component {
   }
 
   componentDidMount = () =>{
-    console.log('component has been mounted')
     let data = localStorage.getItem('todos');
     this.setState(data != null ? JSON.parse(data) : {
-      userName: "Jeremiah",
+      userName: prompt('What is your name'),
       todoItems: [{action: 'Buy Flowers', done: false},
       {action: "Get Shoes", done: false},
       {action: "Collect Tickets", done: true},
       {action: "Call Joe", done: false}
     ], showCompleted: true
-    });
+    }, ()=> localStorage.setItem('todos', JSON.stringify(this.state)));
   }
 
   toggleTodo = (todo) => {
-    this.setState({ todoItems: this.state.todoItems.map(item => item.action === todo.action ? { ...item, done: !item.done } : item) });
+    this.setState({ todoItems: this.state.todoItems.map(item => item.action === todo.action ? { ...item, done: !item.done } : item) },
+    () => localStorage.setItem('todos', JSON.stringify(this.state)) 
+    )
   }
+
+  clearTodos = () => this.setState({todoItems: []}, ()=>{
+    let localState = JSON.parse(localStorage.getItem('todos'));
+    localState.todoItems = [];
+    localStorage.setItem('todos', JSON.stringify(localState));
+  })
 
   todoTableRows = (donevalue) => this.state.todoItems
     .filter(item => item.done === donevalue).map(item =>
@@ -90,6 +96,7 @@ class App extends Component {
               <tbody>{this.todoTableRows(true)}</tbody>
             </table>
           }
+          <button onClick = {this.clearTodos} className = 'btn btn-outline-primary'>Clear All ToDos</button>
         </div>
       </div>
     )
