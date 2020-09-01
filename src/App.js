@@ -3,7 +3,7 @@ import TodoBanner from './TodoBanner';
 import TodoCreator from './TodoCreator';
 import TodoRow from './TodoRow';
 import VisibilityControl from './VisibilityControl';
-import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap.css'
 
 class App extends Component {
 
